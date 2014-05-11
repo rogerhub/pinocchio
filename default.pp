@@ -182,12 +182,6 @@ local_config {'automatic-unattended-upgrades-upgrades':
   replace => 'APT::Periodic::Unattended-Upgrade \"1\";',
 }
 
-local_config {'disable-x11-ssh-agent':
-  file    => '/etc/X11/Xsession.options',
-  search  => 'use-ssh-agent',
-  replace => '# use-ssh-agent',
-}
-
 local_link {'.vim': target       => '.vim-config/.vim'}
 local_link {'.vimrc': target     => '.vim-config/.vimrc'}
 local_link {'.gvimrc': target    => '.vim-config/.gvimrc'}

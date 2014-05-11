@@ -104,9 +104,12 @@ local_package{'google-talkplugin':}
 local_package{'tlp':}
 local_package{'lm-sensors':}
 local_package{'msttcorefonts':}
+local_package{'libappindicator1':}
+local_package{'vlc':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],
+  Package['libappindicator1'],
   ]}
 local_package{'nuvolaplayer': require => Apt_line['nuvola-player']}
 

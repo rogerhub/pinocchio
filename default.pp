@@ -59,6 +59,22 @@ apt_line {'nuvola-player':
   line => 'deb http://ppa.launchpad.net/nuvola-player-builders/stable/ubuntu trusty main',
 }
 
+apt_key {'7FAC5991': keyserver => 'keyserver.ubuntu.com'}
+
+apt_line {'google-chrome':
+  line => 'deb http://dl.google.com/linux/chrome/deb/ stable main',
+}
+
+apt_line {'google-talk':
+  line => 'deb http://dl.google.com/linux/talkplugin/deb/ stable main',
+}
+
+apt_key {'02D65EFF': keyserver => 'keyserver.ubuntu.com'}
+
+apt_line {'linrunner-tlp':
+  line => 'deb http://ppa.launchpad.net/linrunner/tlp/ubuntu trusty main',
+}
+
 define local_package () {
   package {"$name":
     ensure => present,
@@ -83,6 +99,11 @@ local_package{'gconf-editor':}
 local_package{'apt-file':}
 local_package{'gimp':}
 local_package{'rdiff-backup':}
+local_package{'google-chrome-stable':}
+local_package{'google-talkplugin':}
+local_package{'tlp':}
+local_package{'lm-sensors':}
+local_package{'msttcorefonts':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],

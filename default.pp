@@ -106,6 +106,8 @@ local_package{'lm-sensors':}
 local_package{'msttcorefonts':}
 local_package{'libappindicator1':}
 local_package{'vlc':}
+local_package{'encfs':}
+local_package{'network-manager-openvpn':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],
@@ -191,6 +193,11 @@ local_link {'.cgdbrc': target    => 'Configuration/cgdbrc'}
 local_link {'.gitconfig': target => 'Configuration/gitconfig'}
 
 file {"$local_home/Local":
+  ensure => directory,
+  owner  => "$local_user",
+}
+
+file {"$local_home/Private":
   ensure => directory,
   owner  => "$local_user",
 }

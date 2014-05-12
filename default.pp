@@ -103,17 +103,31 @@ local_package{'google-chrome-stable':}
 local_package{'google-talkplugin':}
 local_package{'tlp':}
 local_package{'lm-sensors':}
-local_package{'msttcorefonts':}
 local_package{'libappindicator1':}
 local_package{'vlc':}
 local_package{'encfs':}
 local_package{'network-manager-openvpn':}
+local_package{'ruby1.9.1-dev':}
+local_package{'imagemagick':}
+local_package{'sqlite3':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],
   Package['libappindicator1'],
   ]}
 local_package{'nuvolaplayer': require => Apt_line['nuvola-player']}
+
+define gem () {
+  exec {"install-$name":
+    command => "/usr/bin/gem install $name",
+    unless  => "/usr/bin/gem list --local | /bin/grep -E \"^$name \"",
+  }
+}
+
+gem{'sass':}
+gem{'tugboat':
+  require => Package['ruby1.9.1-dev'],
+}
 
 user {"$local_user":
   shell   => '/usr/bin/fish',
@@ -191,6 +205,7 @@ local_link {'.ssh': target       => 'Configuration/ssh'}
 local_link {'.bcrc': target      => 'Configuration/bcrc'}
 local_link {'.cgdbrc': target    => 'Configuration/cgdbrc'}
 local_link {'.gitconfig': target => 'Configuration/gitconfig'}
+local_link {'.tugboat': target   => 'Configuration/tugboat'}
 
 file {"$local_home/Local":
   ensure => directory,

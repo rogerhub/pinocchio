@@ -110,6 +110,9 @@ local_package{'network-manager-openvpn':}
 local_package{'ruby1.9.1-dev':}
 local_package{'imagemagick':}
 local_package{'sqlite3':}
+local_package{'darktable':}
+local_package{'texlive-latex-base':}
+local_package{'texlive-latex-extra':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],

@@ -113,6 +113,11 @@ local_package{'sqlite3':}
 local_package{'darktable':}
 local_package{'texlive-latex-base':}
 local_package{'texlive-latex-extra':}
+local_package{'virtualbox':}
+local_package{'vagrant':}
+local_package{'inotify-tools':}
+local_package{'xclip':}
+local_package{'awscli':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],
@@ -211,6 +216,11 @@ local_link {'.gitconfig': target => 'Configuration/gitconfig'}
 local_link {'.tugboat': target   => 'Configuration/tugboat'}
 
 file {"$local_home/Local":
+  ensure => directory,
+  owner  => "$local_user",
+}
+
+file {"$local_home/Images":
   ensure => directory,
   owner  => "$local_user",
 }

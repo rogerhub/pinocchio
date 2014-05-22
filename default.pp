@@ -29,7 +29,6 @@ exec {'apt-mirror':
 
 exec {'apt-update':
   command => '/usr/bin/apt-get update',
-  refreshonly => true,
 }
 
 define apt_key ($keyserver) {
@@ -120,6 +119,7 @@ local_package{'xclip':}
 local_package{'awscli':}
 local_package{'ack-grep':}
 local_package{'libav-tools':}
+local_package{'gnucash':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],

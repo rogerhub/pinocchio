@@ -118,6 +118,8 @@ local_package{'vagrant':}
 local_package{'inotify-tools':}
 local_package{'xclip':}
 local_package{'awscli':}
+local_package{'ack-grep':}
+local_package{'libav-tools':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],
@@ -214,6 +216,7 @@ local_link {'.bcrc': target      => 'Configuration/bcrc'}
 local_link {'.cgdbrc': target    => 'Configuration/cgdbrc'}
 local_link {'.gitconfig': target => 'Configuration/gitconfig'}
 local_link {'.tugboat': target   => 'Configuration/tugboat'}
+local_link {'.aws': target       => 'Configuration/aws'}
 
 file {"$local_home/Local":
   ensure => directory,

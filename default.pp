@@ -120,6 +120,7 @@ local_package{'awscli':}
 local_package{'ack-grep':}
 local_package{'libav-tools':}
 local_package{'gnucash':}
+local_package{'inkscape':}
 local_package{'dropbox': require => [
   Apt_line['dropbox'],
   Package['python-gpgme'],

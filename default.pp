@@ -24,7 +24,7 @@ $apt_mirror = "mirror.math.ucdavis.edu"
 exec {'apt-mirror':
   command => "/bin/sed -i \"s/\\(us\\.archive\\|extras\\|security\\)\\.ubuntu\\.com\\/ubuntu/$apt_mirror\\/ubuntu/\" /etc/apt/sources.list",
   unless  => "/bin/grep $apt_mirror /etc/apt/sources.list",
-  notify  => Exec['apt-update'],
+  before  => Exec['apt-update'],
 }
 
 exec {'apt-update':
@@ -35,6 +35,7 @@ define apt_key ($keyserver) {
   exec {"$name":
     command => "/usr/bin/apt-key adv --keyserver $keyserver --recv-keys $name",
     unless  => "/usr/bin/apt-key list | /bin/grep $name",
+    before  => Exec['apt-update'],
   }
 }
 
@@ -42,8 +43,14 @@ define apt_line ($line) {
   file {"/etc/apt/sources.list.d/$name.list":
     ensure  => present,
     content => "$line\n",
-    notify  => Exec['apt-update'],
+    before  => Exec['apt-update'],
   }
+}
+
+apt_key {'94558F59': keyserver => 'keyserver.ubuntu.com'}
+
+apt_line {'spotify':
+  line => 'deb http://repository.spotify.com stable non-free',
 }
 
 apt_key {'5044912E': keyserver => 'pgp.mit.edu'}
@@ -81,52 +88,61 @@ define local_package () {
   }
 }
 
-local_package{'vim-gnome':}
-local_package{'git':}
-local_package{'subversion':}
-local_package{'meld':}
-local_package{'moreutils':}
-local_package{'whois':}
-local_package{'fish':}
-local_package{'python-gpgme':}
-local_package{'g++':}
-local_package{'keepassx':}
-local_package{'unattended-upgrades':}
-local_package{'keychain':}
-local_package{'bmon':}
-local_package{'gconf-editor':}
-local_package{'apt-file':}
-local_package{'gimp':}
-local_package{'rdiff-backup':}
-local_package{'google-chrome-stable':}
-local_package{'google-talkplugin':}
-local_package{'tlp':}
-local_package{'lm-sensors':}
-local_package{'libappindicator1':}
-local_package{'vlc':}
-local_package{'encfs':}
-local_package{'network-manager-openvpn':}
-local_package{'ruby1.9.1-dev':}
-local_package{'imagemagick':}
-local_package{'sqlite3':}
-local_package{'darktable':}
-local_package{'texlive-latex-base':}
-local_package{'texlive-latex-extra':}
-local_package{'virtualbox':}
-local_package{'vagrant':}
-local_package{'inotify-tools':}
-local_package{'xclip':}
-local_package{'awscli':}
-local_package{'ack-grep':}
-local_package{'libav-tools':}
-local_package{'gnucash':}
-local_package{'inkscape':}
-local_package{'dropbox': require => [
-  Apt_line['dropbox'],
-  Package['python-gpgme'],
-  Package['libappindicator1'],
-  ]}
-local_package{'nuvolaplayer': require => Apt_line['nuvola-player']}
+local_package{
+  'vim-gnome':;
+  'git':;
+  'subversion':;
+  'meld':;
+  'moreutils':;
+  'whois':;
+  'fish':;
+  'python-gpgme':;
+  'g++':;
+  'keepassx':;
+  'unattended-upgrades':;
+  'keychain':;
+  'bmon':;
+  'gconf-editor':;
+  'apt-file':;
+  'gimp':;
+  'rdiff-backup':;
+  'google-chrome-stable':;
+  'google-talkplugin':;
+  'tlp':;
+  'lm-sensors':;
+  'libappindicator1':;
+  'vlc':;
+  'encfs':;
+  'network-manager-openvpn':;
+  'ruby1.9.1-dev':;
+  'imagemagick':;
+  'sqlite3':;
+  'darktable':;
+  'texlive-latex-base':;
+  'texlive-latex-extra':;
+  'virtualbox':;
+  'vagrant':;
+  'inotify-tools':;
+  'xclip':;
+  'awscli':;
+  'ack-grep':;
+  'libav-tools':;
+  'gnucash':;
+  'inkscape':;
+  'screen':;
+  'golang':;
+  'calibre':;
+  'spotify-client':
+    require => Apt_line['spotify'];
+  'dropbox':
+    require => [
+      Apt_line['dropbox'],
+      Package['python-gpgme'],
+      Package['libappindicator1']
+    ];
+  'nuvolaplayer':
+    require => Apt_line['nuvola-player'];
+}
 
 define gem () {
   exec {"install-$name":
